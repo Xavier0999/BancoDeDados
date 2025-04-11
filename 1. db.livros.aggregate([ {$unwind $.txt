@@ -1,3 +1,7 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+MONGODB
+
+
 1. db.livros.aggregate([ {$unwind: "$genero"},
                      {
 $group: {
@@ -10,17 +14,20 @@ count: {$sum: 1}}},
 
 
 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+REDIS
+
 Detalhes de um Curso Espec´ıfico:
 
-    HGETALL detalhes:curso:c001
-
+   HGETALL detalhes:curso:c001
 
 
 Sess˜oes Ativas dos Alunos
 
 TTL sessao:a101
-
-
 
 
 Consulta de Alunos Inscritos em Apenas um Curso
@@ -39,8 +46,6 @@ Consulta de Alunos Inscritos em Apenas um Curso
 1) "a205"
 
 
-
-
 Categorias Compartilhadas entre Cursos
 
 SINTER categoria:negocios categoria:comunicacao categoria:design
@@ -51,3 +56,39 @@ SINTER categoria:negocios categoria:comunicacao
 
 SINTER categoria:comunicacao categoria:design
 1) "c102"
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CASSANDRA
+
+Consulta de Métricas Recentes:
+
+SELECT * FROM metricas_usuarios WHERE user_id = 550e8400-e29b-41d4-a716-446655440000 LIMIT 10;
+
+
+Eventos por Tipo:
+
+SELECT evento_id, descricao, data_hora FROM eventos_sistema WHERE tipo_evento = 'login';
+
+Relatórios Gerados em um Período: 
+
+SELECT titulo, data_criacao FROM relatorios_gerados WHERE data_criacao >= '2025-04-01 00:00:00' AND data_criacao <= '2025-04-07 23:59:59' ALLOW FILTERING;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+NEO4J
+
+Amigos em Comum entre Dois Usuários: 
+
+MATCH (u1:Usuario {id: '550e8400-e29b-41d4-a716-446655440000'})-[:AMIGO]->(amigo:Usuario)<-[:AMIGO]-(u2:Usuario {id: '770e8400-e29b-41d4-a716-446655440000'})
+RETURN amigo.nome, amigo.id;
+
+Postagens Recentes de Amigos:
+
+MATCH (u:Usuario {id: '550e8400-e29b-41d4-a716-446655440000'})-[:AMIGO]->(amigo:Usuario)-[:CRIADO]->(p:Postagem)
+RETURN p.titulo AS titulo, amigo.nome AS nome_amigo, p.data_criacao AS data
+ORDER BY p.data_criacao
+LIMIT 5;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
