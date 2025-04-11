@@ -1,0 +1,53 @@
+1. db.livros.aggregate([ {$unwind: "$genero"},
+                     {
+$group: {
+_id: "$genero",
+count: {$sum: 1}}},
+                     {$sort: {count: -1}}]
+
+);
+
+
+
+
+Detalhes de um Curso Espec´ıfico:
+
+    HGETALL detalhes:curso:c001
+
+
+
+Sess˜oes Ativas dos Alunos
+
+TTL sessao:a101
+
+
+
+
+Consulta de Alunos Inscritos em Apenas um Curso
+ 
+ SDIFF curso:Logica_Programacao curso: Design_Interfaces curso:Marketing_Digital
+1) "a202"
+2) "a203"
+ SDIFF curso:Logica_Programacao curso: curso:Marketing_Digital Design_Interfaces
+1) "a202"
+2) "a203"
+ SDIFF  curso:Marketing_Digital Design_Interfaces curso:Logica_Programacao
+1) "a205"
+ SDIFF  curso:Marketing_Digital curso:Design_Interfaces curso:Logica_Programacao
+1) "a205"
+ SDIFF  curso:Marketing_Digital curso:Logica_Programacao curso:Design_Interfaces
+1) "a205"
+
+
+
+
+Categorias Compartilhadas entre Cursos
+
+SINTER categoria:negocios categoria:comunicacao categoria:design
+(empty array)
+
+SINTER categoria:negocios categoria:comunicacao
+1) "c103"
+
+SINTER categoria:comunicacao categoria:design
+1) "c102"
